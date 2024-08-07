@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div>
+        <p class="font-md">
+            Use this page to manage countries which will be displayed in the customer registration form.
+            Click Load Country List first.
+        </p>
+    </div>
+    <div>
+        <input type="button" value="Load Country List" id="btnLoadCountries" class="btn btn-primary font-md">
+    </div>
+    <div>
+        <select class="form-control my-4 font-md" id="dropDownCountries" style="height: 300px;" size="3">
+        </select>
+    </div>
+
+    <form id="formCountry">
+        <div class="form-group row m-0">
+            <label id="labelCountryName" class="col-form-label font-md">Country Name:</label>
+            <div class="col-md p-0 px-sm-4">
+                <input id="fieldCountryName" type="text" class="form-control font-md" required minlength="3" maxlength="45">
+            </div>
+
+            <label id="labelCountryCode" class="col-form-label font-md">Code:</label>
+            <div class="col-md p-0 px-sm-4">
+                <input id="fieldCountryCode" type="text" class="form-control font-md" required minlength="2" maxlength="3">
+            </div>
+
+            <div class="col-lg-4  mt-5 mt-lg-0 justify-content-center d-flex">
+                <input id="btnAddCountry" type="button" value="New" class="btn font-md mr-4 btn-secondary">
+                <input id="btnUpdateCountry" type="button" value="Update" class="btn font-md  mr-4 btn-secondary"
+                       disabled="disabled">
+                <input id="btnDeleteCountry" type="button" value="Delete" class="btn font-md mr-4  btn-secondary"
+                       disabled="disabled">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

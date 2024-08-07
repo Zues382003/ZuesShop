@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <form th:action="@{/settings/save_mail_server}" class="contact-form row mt-5" method="post">
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="MAIL_HOST" th:value="${MAIL_HOST}" type="text" required>
+            <label class="label">SMTP Server Host Name:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="MAIL_PORT" th:value="${MAIL_PORT}" type="text" required>
+            <label class="label">Port Number:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="MAIL_USERNAME" th:value="${MAIL_USERNAME}" type="text" required>
+            <label class="label">Username:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="MAIL_PASSWORD" th:value="${MAIL_PASSWORD}" type="text" required>
+            <label class="label">Password:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Server Authentication Required:</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="SMTP_AUTH" >
+                <option value="true" th:selected="${SMTP_AUTH} == 'true'">
+                    True
+                </option>
+                <option value="false" th:selected="${SMTP_AUTH} == 'false'">
+                    False
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Server Requires Secured Connection (TLS):</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="SMTP_SECURED" >
+                <option value="true" th:selected="${SMTP_SECURED} == 'true'">
+                    True
+                </option>
+                <option value="false" th:selected="${SMTP_SECURED} == 'false'">
+                    False
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="MAIL_FROM" th:value="${MAIL_FROM}" type="text" required>
+            <label class="label">From E-mail Address:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="MAIL_SENDER_NAME" th:value="${MAIL_SENDER_NAME}" type="text" required>
+            <label class="label">Sender Name:</label>
+        </div>
+
+
+        <div class="form-field col-lg-12">
+            <input class="btn-submit" type="submit" value="Save">
+        </div>
+    </form>
+</div>
+</body>
+</html>

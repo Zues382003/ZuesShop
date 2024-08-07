@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="head_menu">
+    <nav class="navbar navbar-expand-md bg-header">
+        <a class="navbar-brand" th:href="@{/}">
+            <img th:src="@{${SITE_LOGO}}" alt="Logo" height="60px">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar, #searchNavbar">
+            <i class="fa-solid fa-bars color-white" style="font-size: 2.5rem"></i>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="topNavbar">
+            <ul class="navbar-nav m-3">
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xxl" th:href="@{/careers}">Careers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xxl" th:href="@{/payments}">Payments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xxl" th:href="@{/shipping}">Shipping
+                        &amp; Delivery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xxl" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xxl" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xxl" th:href="@{/contact}">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="bottom_menu">
+    <nav class="navbar navbar-expand-md bg-header">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bottomNavbar">
+            <i class="fa-solid fa-bars color-white" style="font-size: 2.5rem"></i>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="bottomNavbar">
+            <ul class="navbar-nav m-3 m-md-0">
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/about}">About
+                        us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/privacy}">Privacy
+                        Notice</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/shipping}">Returns
+                        &amp; Refunds</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="footer" class="text-center m-3 font-md">
+    <p>[[${COPYRIGHT}]]</p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments :: page_Head('Verification Succeeded','none')}">
+<body>
+    <div class="container-fluid">
+        <div th:replace="~{navigation :: head_menu}"></div>
+        <div class="my-5 text-center">
+            <h1 class="color-title my-4">Customer Verification</h1>
+            <h2 class="my-3">Congratulation! Your account has been verified.</h2>
+            <p class="my-3 font-md"><a th:href="@{/login}">Login Now</a></p>
+        </div>
+
+        <div th:replace="~{navigation :: bottom_menu}"></div>
+        <div th:replace="~{navigation :: footer}"></div>
+    </div>
+</body>
+</html>

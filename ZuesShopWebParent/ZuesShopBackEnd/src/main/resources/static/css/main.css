@@ -1,0 +1,353 @@
+.th_td_table{
+    vertical-align: middle !important;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.bg-header{
+    background-image: linear-gradient(90deg,#12c2e9, #c471ed, #f64f59);
+}
+
+.get_in_touch{
+    max-width: 800px;
+    margin: 50px auto;
+    position:  relative;
+    box-shadow:  0 10px 30px 0px rgba(0,0,0,0.1);
+    padding: 30px;
+}
+
+.get_in_touch .title{
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 2.6rem;
+    line-height: 3.8rem;
+    padding-bottom: 20px;
+    color:#5543ca;
+    background: linear-gradient(to right ,#f4524d, #5543ca) ;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.contact-form .form-field{
+    position: relative;
+    margin: 24px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-form .input-text{
+    display: block;
+    width: 100%;
+    height: 36px;
+    border-width: 0 0 2px 0;
+    border-color:#5543ca;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+    font-weight: 400;
+}
+
+.contact-form .input-text:focus + .label,
+.contact-form .input-text.is-valid+ .label{
+    transform:translateY(-10px);
+    transition: transform 0.3s ease-in-out;
+}
+
+.contact-form .input-text:focus{
+    outline: none;
+}
+
+.contact-form .label{
+    position: absolute;
+    left: 14px;
+    bottom: 22px;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+    font-weight: 400;
+    color: #5543ca;
+    cursor:text;
+    text-transform: capitalize;//chu cai dau tien moi tu thanh in hoa
+    transition: transform 0.2s ease-in-out;
+}
+
+.contact-form .btn-submit{
+    display: inline-block;
+    background-image: linear-gradient(125deg, #a72878, #064497);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.6rem;
+    padding:8px 16px;
+    border:none;
+    width: 200px;
+    cursor: pointer;
+}
+
+.contact-form .btn-submit:hover{
+    opacity: 0.8;
+}
+
+.contact-form .btn-cancel{
+    display: inline-block;
+    color: #fff;
+    background-image: linear-gradient(205deg, #a72878, #064497);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.6rem;
+    padding:8px 16px;
+    border:none;
+    width: 200px;
+    cursor: pointer;
+}
+
+.contact-form .btn-cancel:hover{
+    opacity: 0.8;
+}
+
+.label_new-user-role{
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #5543ca;
+    cursor:text;
+    text-transform: capitalize;//chu cai dau tien moi tu thanh in hoa
+}
+
+.user_avatar{
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:7px solid #fff;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25) ;
+}
+.user_avatar:hover{
+    border-color: #82d8eb;
+    transition: .7s;
+}
+
+.user_list_avatar{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border:3px solid #fff;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25) ;
+}
+.user_list_avatar:hover{
+    border-color: #df5e9c;
+    transition: .7s;
+}
+
+.navigation_avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25);
+}
+
+.navigation_avatar:hover{
+    border-color: #ffc107;
+    transition: .7s;
+}
+
+.btn-page{
+    width: 36px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.sort_icon_up{
+    position: relative;
+    top: 4px;
+}
+
+.sort_icon_down{
+    position: relative;
+    top: -2px;
+}
+
+/*Seach at User*/
+
+.box{
+    width: 100%;
+}
+.box .search-box{
+    position: relative;
+    height: 40px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.search-box input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+    background:#fff;
+    outline: none;
+    border:none;
+    padding-left: 20px;
+    font-size: 1.8rem;
+}
+.search-box .icon{
+    position: absolute;
+    right: -2px;
+    top: 0;
+    width: 54px;
+    height: 100%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 2rem;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    background: #da62ab;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.25);
+    color: #FFF;
+}
+
+.btn-clear {
+    position: absolute;
+    right: -90px;
+    top: 0;
+    width: 65px;
+    height: 100%;
+    text-align: center;
+    line-height: 4rem !important;
+    font-size: 2rem;
+    border-radius: 0 27px 0 22px;
+    background: #df5e9c;
+    color: #FFF;
+    cursor: pointer;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25);
+}
+.btn-clear:hover{
+    color: #df5e9c;
+    background: #FFF;
+}
+
+.opacity-8{
+    opacity: 0.8;
+}
+
+.btn-square-pink{
+    width: 40px;
+    height: 40px;
+    color: #df5e9c;
+    border-color: #855d99;
+
+}
+.btn-square-pink:hover{
+    color: white;
+    background-color: #df5e9c;
+    border-color: #855d99;
+}
+
+/*Form Login*/
+
+.container-form-box{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: url("../images/hinhnenlogin.jpg")no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.form-box{
+    position: relative;
+    height: 450px;
+    width: 400px;
+    background-color: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    align-items: center;
+}
+.title-login{
+    font-size: 4rem;
+    color: white;
+    text-align: center;
+}
+.inputbox{
+    position: relative;
+    margin: 40px 0;
+    width: 310px;
+    border-bottom: 2px solid #FFFFFF;
+}
+.inputbox label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #FFFFFF;
+    font-size: 2rem;
+    pointer-events: none;
+    transition: .3s ease-in-out;
+}
+.input_login:focus~.label_login,
+.input_login.is-valid~.label_login{
+    top: -12px;
+}
+.inputbox input{
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 2rem;
+    padding: 0 35px 0 5px;
+    margin-bottom: 2px;
+    color: #FFFFFF;
+}
+.inputbox .fa-solid{
+    position: absolute;
+    right: 8px;
+    color: #FFFFFF;
+    font-size: 1.8rem;
+    top: 16px;
+}
+.forget{
+    margin: -15px 0 15px;
+    font-size: 1.6rem;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+}
+.forget input{
+    margin:  0 4px 2px 0;
+}
+.form-value form .btn_login{
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #FFFFFF;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.entity_images{
+    width: 240px;
+    height: 240px;
+    border-radius: 10%;
+    object-fit: contain;
+    border:7px solid #fff;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25) ;
+}
+.entity_images:hover{
+    border-color: #82d8eb;
+    transition: .7s;
+}
+
+

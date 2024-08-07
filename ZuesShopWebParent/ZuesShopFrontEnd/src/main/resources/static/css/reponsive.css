@@ -1,0 +1,21 @@
+/*min is >= and max is <*/
+/*Mobile*/
+@media screen and (max-width: 740px) {
+    div.full-details{display: none}
+    div.less-details{display: block}
+
+    html{
+        font-size: 8px;
+    }
+
+}
+/*Tablet*/
+@media screen and (min-width: 740px) and (max-width: 1024px){
+    div.full-details{display: block}
+    div.less-details{display: none}
+}
+
+/*PC*/
+@media screen and (min-width: 1024px){
+    div.less-details{display: none}
+}

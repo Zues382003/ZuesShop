@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div class="col-md-8 offset-md-2" style="margin-top: 50px">
+        <input class="input-text js-input-form" name="CUSTOMER_VERIFY_SUBJECT" th:value="${CUSTOMER_VERIFY_SUBJECT}" type="text" required>
+        <label class="label">E-mail Subject:</label>
+    </div>
+
+    <div class="col-md-8 offset-md-2 px-0 my-5">
+        <label class="col-12 font-xl color-font">E-Mail Content:</label>
+        <div class="col-12 my-3">
+            <textarea rows="5" name="CUSTOMER_VERIFY_CONTENT" id="customerVerificationContent">[[${CUSTOMER_VERIFY_CONTENT}]]</textarea>
+        </div>
+    </div>
+</div>
+</body>
+</html>

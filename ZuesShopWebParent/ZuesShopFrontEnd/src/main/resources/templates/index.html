@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments :: page_Head('ZuesShop','none')}">
+<body>
+    <div class="container-fluid">
+        <div th:replace="~{navigation :: head_menu}"></div>
+        <div class="mx-4 mt-4">
+            <h1 class="color-title">WelCome to ZuesShop!</h1>
+        </div>
+        <div th:replace="~{fragments :: search_nav}"></div>
+
+        <hr class="my-5 bold-hr">
+
+        <div class="row m-4">
+            <div class="col-6 col-sm-3 col col-md-2"  th:each="cat : ${listCategories}" >
+                <a style="display: flex; flex-direction: column; justify-content: end"
+                     th:href="@{'/c/' + ${cat.alias}} ">
+                    <div class="m-2" style="display: flex; justify-content: center">
+                        <img class="m-2" th:src="@{${cat.imagesPath}}" width="80">
+                    </div>
+                    <div class="text-center">
+                        <a class="m-2 font-sm color-pink" style="font-weight: 500" th:href="@{'/c/' + ${cat.alias}} " >[[${cat.name}]]</a>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div th:replace="~{navigation :: bottom_menu}"></div>
+        <div th:replace="~{navigation :: footer}"></div>
+    </div>
+</body>
+</html>

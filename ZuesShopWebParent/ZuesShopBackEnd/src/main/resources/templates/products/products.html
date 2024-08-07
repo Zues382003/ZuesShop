@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head th:replace="~{fragments :: page_Head('Products - ZuesShop','none')}"></head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <section class="m-4">
+        <h1 class="title color-title">Manage Product</h1>
+    </section>
+
+    <hr class="bold-hr mb-5">
+    <!--  Tạo alert thông báo-->
+    <div th:replace="~{fragments :: meassage(${messageSuccess}, ${messageError})}"></div>
+    <!--          Search-->
+    <form th:action="@{/products/page/1}" id="searchForm" class="search-box justify-content-center my-4">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDirection" th:value="${sortDirection}">
+        <div class="font-xl pr-3 py-3" style="display: flex; width: 100%; max-width: 400px;">
+            <label class="mr-3" style="color: #a72878;">Categories:</label>
+            <select class="form-control font-md" name="categoryId" id="dropdownCategory">
+                <option value="0">All Categories</option>
+
+                <th:block th:each="cat : ${listCategories}">
+                    <option th:selected="(${cat.id} == ${categoryId})" th:value="${cat.id}">[[${cat.name}]]</option>
+                </th:block>
+            </select>
+        </div>
+        <div class="box p-3">
+            <div class="search-box justify-content-center">
+                <input type="search" placeholder="Search" name="keyword" autocomplete="off" maxlength="45"
+                       th:value="${keyword}"
+                       id="searchField" required>
+                <button class="icon" style="border:none" type="submit" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-search"></i>
+                </button>
+                <span class="fa-solid fa-rotate-left btn-clear" onclick="clearFilter()"></span>
+            </div>
+        </div>
+    </form>
+    <!--    Table Category-->
+    <p sec:authorize="hasAnyAuthority('Admin','Editor')" class="my-4">
+        <a class="btn btn-square-pink fa-2x mr-3" title="Create New Product"
+           th:href="@{/products/new}">
+            <i class="bi bi-plus-square-fill fa-solid fa-plus"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3" title="Export to CSV"
+           th:href="@{/products/export/csv}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-csv"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3" title="Export to Excel"
+           th:href="@{/products/export/excel}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-excel"></i>
+        </a>
+    </p>
+
+    <div class="full-details">
+        <table class="table table-hover table-bordered table-striped table-responsive-sm">
+            <thead>
+            <tr>
+                <th class="hideable-column th_td_table">
+                <th th:replace="~{fragments :: column_Link('/products','id','ID','tag')}"></th>
+                </th>
+
+                <th class="th_td_table">Main Image</th>
+                <th th:replace="~{fragments :: column_Link('/products','name','Product Name','none')}"></th>
+
+                <th class="hideable-column th_td_table">
+                <th th:replace="~{fragments :: column_Link('/products','brand','Brand','tag')}"></th>
+                </th>
+
+                <th class="hideable-column th_td_table">
+                <th th:replace="~{fragments :: column_Link('/products','category','Category','tag')}"></th>
+                </th>
+
+                <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                    <th th:replace="~{fragments :: column_Link('/products','enabled','Enabled','none')}"></th>
+                </th:block>
+
+                <th class="th_td_table">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${listProducts}">
+                <td class="hideable-column" style="font-size: 1.3rem; vertical-align: middle; text-align: center;">
+                    [[${item.id}]]
+                </td>
+                <td style="vertical-align: middle; text-align: center;">
+                    <img th:if="${item.mainImage == 'default_product.jpg'}" class="entity_images"
+                         style="width: 150px; height: 150px; " th:src="@{/images/default_product.jpg}">
+                    <img th:if="${item.mainImage != 'default_product.jpg'}" class="entity_images"
+                         style="width: 150px; height: 150px; " th:src="@{${item.getMainImagePath()}}">
+                </td>
+                <td style="font-size: 1.3rem; vertical-align: middle; text-align: center;">
+                    <a class="link-detail" th:href="@{'/products/detail/' + ${item.id}}">[[${item.shortName}]]</a>
+                </td>
+
+                <td class="hideable-column th_td_table">[[${item.brand.name}]]</td>
+                <td class="hideable-column th_td_table">[[${item.category.name}]]</td>
+
+                <th:block sec:authorize="hasAnyAuthority('Admin','Editor')" class="my-4">
+                    <td class="pointer-event" style="font-size: 1.3rem; vertical-align: middle; text-align: center;">
+                        <div th:replace="~{fragments :: status( '/products/', ${item.enabled}, ${item.id}, 'product')}"></div>
+                    </td>
+                </th:block>
+                <td class="text-center" style="vertical-align: middle">
+                    <a class="btn btn-square-pink m-3 link-detail" style="font-size: 2rem;"
+                       th:href="@{'/products/detail/' + ${item.id}}" title="This product details">
+                        <i class="bi bi-pencil-fill fa-solid fa-eye"></i>
+                    </a>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson')" class="my-4">
+                        <a th:replace="~{fragments :: edit('/products/', ${item.id}, 'product')}"></a>
+                    </th:block>
+                    <th:block sec:authorize="hasAnyAuthority('Admin','Editor')" class="my-4">
+                        <a th:replace="~{fragments :: delete('/products/', ${item.id}, 'product', true)}"></a>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--less Details-->
+    <div class="less-details mt-5">
+        <div th:each="item, index : ${listProducts}" style="display: grid">
+            <article class="article-wrapper mb-5" style="place-self: center;">
+                <div>
+                    <img class="rounded-lg container-project" th:src="@{${item.getMainImagePath()}}">
+                </div>
+                <div class="project-info">
+                    <div class="flex-pr" style="margin-right: -10px;">
+                        <div class="project-title text-nowrap">[[${item.name}]]</div>
+                        <a class="project-hover" th:id="'editCard' + ${index.count}"
+                           th:href="@{'/products/edit/' + ${item.id}}" title="Edit this brand">
+                            <svg style="color: black;" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em"
+                                 color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24"
+                                 stroke-width="2" fill="none" stroke="currentColor">
+                                <line y2="12" x2="19" y1="12" x1="5"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="types" style="justify-content: space-between;" th:id="'action' + ${index.count}">
+                        <a class="btn btn-square-pink m-3 link-detail" style="font-size: 2rem;"
+                           th:href="@{'/products/detail/' + ${item.id}}" title="This product details">
+                            <i class="bi bi-pencil-fill fa-solid fa-eye"></i>
+                        </a>
+                        <a th:replace="~{fragments :: delete('/brands/', ${item.id}, 'brand', true)}"></a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments :: pagination('products', 'products')}"></div>
+
+    <div th:replace="~{modal_fragment :: confirm_modal}"></div>
+
+    <div class="modal fade" id="detailModal" style="padding: 0!important;">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+    moduleURl = "[[@{/products}]]";
+
+    $(document).ready(function () {
+        $(".link-delete").on("click", function (e) {
+            e.preventDefault();
+
+            showDeleteConfirmModal($(this), 'product');
+        });
+
+        $(".link-detail").on("click", function (e) {
+            e.preventDefault();
+
+            linkDetailUrl = $(this).attr("href");
+            $("#detailModal").modal("show").find(".modal-content").load(linkDetailUrl);
+        });
+
+        $("#dropdownCategory").on("change", function () {
+            $("#searchForm").submit();
+        });
+
+    });
+
+
+</script>
+</body>
+</html>

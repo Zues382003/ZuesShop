@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="page_Head(page_title,remove)" th:remove="${remove}">
+    <meta http-equiv="Content-Type" content="text/html , charset = UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>[[${page_title}]]</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custombootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/reponsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.min.css}">
+
+    <script  th:src="@{/webjars/popper.js/1.14.3/umd/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+<body>
+    <div th:fragment="meassage(messageSuccess, messageError)">
+        <div th:if="${messageSuccess != null}" class="alert alert-success text-center" style="font-size: 1.6rem">
+            [[${messageSuccess}]]
+        </div>
+        <div th:if="${messageError != null}" class="alert alert-danger text-center" style="font-size: 1.6rem">
+            [[${messageError}]]
+        </div>
+    </div>
+
+    <div th:fragment="search(urlEnity,removeTag)" th:remove="${removeTag}">
+        <div class="box">
+            <form th:action="@{${urlEnity} + '/page/1'}" class="search-box justify-content-center">
+                <input type="hidden" name="sortField" th:value="${sortField}">
+                <input type="hidden" name="sortDirection" th:value="${sortDirection}">
+                <input  type="search" placeholder="Search" name="keyword"  maxlength="45" th:value="${keyword}"  id="searchField"  required>
+                <button  class="icon" style="border:none"  type="submit"  aria-expanded="false" >
+                    <i class="fas fa-search"></i>
+                </button>
+                <span class="fa-solid fa-rotate-left btn-clear" onclick="clearFilter()"></span>
+            </form>
+        </div>
+    </div>
+
+    <div th:fragment="status(titleUrl, enabled, id, entityName)" th:remove="tag">
+        <a th:if="${enabled == true}" th:href="@{ ${titleUrl} + ${id} + '/enabled/false'}" th:title=" 'Disable this' + ${entityName}">
+            <i class="fa-solid fa-check" style="color: green;font-size: 2rem" ></i>
+        </a>
+        <a th:if="${enabled == false}" th:href="@{ ${titleUrl} + ${id} + '/enabled/true'}" th:title=" 'Enabled this' + ${entityName}">
+            <i class="fa-solid fa-xmark " style="color: red;font-size: 2.3rem"></i>
+        </a>
+    </div>
+
+    <a th:fragment="edit(titleUrl, id, entityName)">
+        <a class="btn btn-square-pink m-3 " style="font-size: 2rem;" th:href="@{ ${titleUrl} + 'edit/' + ${id}}" th:title="'Edit this' + ${entityName} ">
+            <i class="bi bi-pencil-fill fa-solid fa-user-pen"></i>
+        </a>
+    </a>
+
+    <a th:fragment="delete(titleUrl, id, entityName, visible)">
+        <th:block th:if="${visible}">
+            <a class="btn btn-square-pink m-3 link-delete" style="font-size: 2rem;" th:href="@{ ${titleUrl} + 'delete/' + ${id}}" th:title="'Delete this' + ${entityName}" th:entityId="${id}">
+                <i class="bi bi-trash-fill fa-solid fa-trash"></i>
+            </a>
+        </th:block>
+    </a>
+
+    <th  th:fragment="column_Link(urlEntity,fieldName,columnLabel,removeTag)" th:remove="${removeTag}" class="th_td_table">
+        <a style="color: black"
+           th:href="@{ ${urlEntity} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDirection='+ ${sortField != fieldName ? sortDirection : reverseSortDirection }
+           + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''} + ${roleId != null ? '&roleId=' + roleId : ''}}">
+            [[${columnLabel}]]
+        </a>
+
+        <span th:if="${sortField == fieldName}"
+              th:class="${sortDirection == 'asc' ? 'fas fa-sort-up sort_icon_up' : 'fas fa-sort-down sort_icon_down'}">
+        </span>
+    </th>
+
+    <a th:fragment="link_Pagination(moduleURL ,pageNumber,labelEntity)" class="page-link" style="font-size: 20px; border-radius: 5px"
+       th:href="@{'/' + ${moduleURL} + '/page/'+ ${pageNumber} +'?sortField=' + ${sortField} +'&sortDirection=' + ${sortDirection}
+       + ${keyword != null ? '&keyword=' + keyword : ''}  + ${categoryId != null ? '&categoryId=' + categoryId : ''} + ${roleId != null ? '&roleId=' + roleId : ''}}" aria-label="First">
+        <span aria-hidden="true">[[${labelEntity}]]</span>
+        <span class="sr-only">[[${labelEntity}]]</span>
+    </a>
+
+    <div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+        <div class="text-center" style="font-size: 1.6rem; margin-top: 30px; margin-bottom: 20px " th:if="${totalItems > 0}">
+            <span>Total [[${entityName}]]: [[${totalItems}]]</span>
+        </div>
+
+        <!--              Pagination -->
+        <div th:if="${totalPages} > 1">
+            <nav>
+                <ul class="pagination justify-content-center" style="display: flex; flex-wrap: wrap">
+                    <li th:class="${currentPage == 1} ? 'page-item btn-page disabled' : 'page-item btn-page'" style="margin-right: 5px">
+                        <a th:replace="~{fragments :: link_Pagination(${moduleURL}, 1,'&laquo;')}"></a>
+                    </li>
+                    <li th:class="${currentPage > 1 ? 'page-item btn-page' : 'page-item btn-page disabled'}" style="margin-right: 5px">
+                        <a th:replace="~{fragments :: link_Pagination(${moduleURL}, ${currentPage - 1},'&lsaquo;')}"></a>
+                    </li>
+
+                    <th:block th:if="${totalPages <= 6}">
+                        <li th:class="${currentPage != i ? 'page-item btn-page' : 'page-item btn-page active' }" th:each="i : ${#numbers.sequence(1,totalPages)}" style="margin-right: 5px">
+                            <a th:replace="~{fragments :: link_Pagination(${moduleURL}, ${i} ,${i} )}"></a>
+                        </li>
+                    </th:block>
+
+                    <th:block th:if="${totalPages > 6}">
+                        <th:block th:if="${currentPage <= 3 || currentPage >= totalPages -2}">
+                            <li th:class="${currentPage != i ? 'page-item btn-page' : 'page-item btn-page active' }" th:each="i : ${#numbers.sequence(1,3)}" style="margin-right: 5px">
+                                <a th:replace="~{fragments :: link_Pagination(${moduleURL}, ${i} ,${i} )}"></a>
+                            </li>
+
+                            <a class="page-link"  style="font-size: 20px; border-radius: 5px; margin: 0 5px 5px 0; width: 36px; text-align: center "
+                               th:href="@{'/' + ${moduleURL} + '/page/4' +'?sortField=' + ${sortField} +'&sortDirection=' + ${sortDirection} + ${keyword != null ? '&keyword=' + keyword : ''}}" aria-label="First">...</a>
+
+                            <li th:class="${currentPage != i ? 'page-item btn-page' : 'page-item btn-page active' }" th:each="i : ${#numbers.sequence(totalPages - 2,totalPages)}" style="margin-right: 5px">
+                                <a th:replace="~{fragments :: link_Pagination(${moduleURL}, ${i} ,${i} )}"></a>
+                            </li>
+                        </th:block>
+
+                        <th:block th:if="${currentPage > 3 && currentPage < totalPages -2}">
+                            <a class="page-link"  style="font-size: 20px; border-radius: 5px; margin: 0 5px 5px 0; width: 36px; text-align: center "
+                               th:href="@{'/' + ${moduleURL} + '/page/'+ ${currentPage - 3} +'?sortField=' + ${sortField} +'&sortDirection=' + ${sortDirection} + ${keyword != null ? '&keyword=' + keyword : ''}}" aria-label="First">...</a>
+
+                            <li th:class="${currentPage != i ? 'page-item btn-page' : 'page-item btn-page active' }" th:each="i : ${#numbers.sequence(currentPage - 2, currentPage + 2)}" style="margin-right: 5px">
+                                <a th:replace="~{fragments :: link_Pagination(${moduleURL}, ${i} ,${i} )}"></a>
+                            </li>
+                            <a class="page-link"  style="font-size: 20px; border-radius: 5px; margin: 0 5px 5px 0; width: 36px; text-align: center "
+                               th:href="@{'/' + ${moduleURL} + '/page/'+ ${currentPage + 3} +'?sortField=' + ${sortField} +'&sortDirection=' + ${sortDirection} + ${keyword != null ? '&keyword=' + keyword : ''}}" aria-label="First">...</a>
+                        </th:block>
+                    </th:block>
+
+                    <li th:class="${currentPage < totalPages ? 'page-item btn-page' : 'page-item btn-page disabled' }" style="margin-right: 5px">
+                        <a th:replace="~{fragments :: link_Pagination(${moduleURL}, ${currentPage + 1} ,'&rsaquo;' )}"></a>
+                    </li>
+                    <li th:class="${currentPage == totalPages ? 'page-item btn-page disabled' : 'page-item btn-page'}" style="margin-right: 5px">
+                        <a th:replace="~{fragments :: link_Pagination(${moduleURL} ,${totalPages} ,'&raquo;' )}"></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="text-center mt-5 font-weight-bold" style="font-size: 3rem" th:unless="${totalItems > 0}">
+            <span>No [[${entityName}]] Found!</span>
+        </div>
+    </div>
+
+    <p th:fragment="footer">
+        ZuesShop Control Panel - Copyright &copy; ZuesShop
+    </p>
+
+</body>
+</html>

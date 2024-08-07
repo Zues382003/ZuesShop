@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <head th:replace="~{fragments :: page_Head('Create New Product','tag')}"></head>
+    <link rel="stylesheet" th:href="@{/richtext/richtext.min.css}">
+    <script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <section class="get_in_touch" style="max-width: 1200px; padding: 16px;">
+        <h1 class="title">[[${pageTitle}]]</h1>
+
+        <form th:action="@{/products/save}" method="post" th:object="${product}"
+              enctype="multipart/form-data"
+              class="contact-form"
+              onsubmit="return checkUnique(this)">
+            <input type="hidden" th:field="*{id}">
+            <input th:if="${product.category != null}" type="hidden"
+                   id="categoryId" th:value="${product.category.id}">
+            <div>
+                <nav>
+                    <div style="font-size: 1.8rem;" class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link color-pink active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                        <a class="nav-item nav-link color-pink" data-toggle="tab" href="#description" role="tab">Description</a>
+                        <a class="nav-item nav-link color-pink" data-toggle="tab" href="#images" role="tab">Images</a>
+                        <a class="nav-item nav-link color-pink" data-toggle="tab" href="#details" role="tab">Details</a>
+                        <a class="nav-item nav-link color-pink" data-toggle="tab" href="#shipping"
+                           role="tab">Shipping</a>
+                    </div>
+                </nav>
+                <div style="font-size: 1.4rem;" class="tab-content m-3" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                        <div th:replace="~{/products/product_overview :: content}"></div>
+                    </div>
+                    <div class="tab-pane fade" id="description" role="tabpanel">
+                        <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                            <div th:replace="~{/products/product_description :: content}"></div>
+                        </th:block>
+                        <th:block sec:authorize="hasAnyAuthority('Salesperson')">
+                            <div th:replace="~{/products/product_description_readonly :: content}"></div>
+                        </th:block>
+                    </div>
+                    <div class="tab-pane fade" id="images" role="tabpanel">
+                        <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                            <div th:replace="~{/products/product_images :: content}"></div>
+                        </th:block>
+                        <th:block sec:authorize="hasAnyAuthority('Salesperson')">
+                            <div th:replace="~{/products/product_image_readonly :: content}"></div>
+                        </th:block>
+                    </div>
+                    <div class="tab-pane fade" id="details" role="tabpanel">
+                        <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                            <div th:replace="~{/products/product_details :: content}"></div>
+                            <div class="row mt-5 mb-5">
+                                <input style="font-size: 1.8rem; margin-left: auto; margin-right: auto;" type="button"
+                                       onclick="addNextDetailSection()"
+                                       class="btn btn-outline-dark" value="Add More Detail"/>
+                            </div>
+                        </th:block>
+                        <th:block sec:authorize="hasAnyAuthority('Salesperson')">
+                            <div th:replace="~{/products/product_details_readonly :: content}"></div>
+                        </th:block>
+                    </div>
+                    <div class="tab-pane fade" id="shipping" role="tabpanel">
+                        <th:block sec:authorize="hasAnyAuthority('Admin','Editor')">
+                            <div th:replace="~{/products/product_shipping :: content}"></div>
+                        </th:block>
+                        <th:block sec:authorize="hasAnyAuthority('Salesperson')">
+                            <div th:replace="~{/products/product_shipping_readonly :: content}"></div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-field col-lg-6">
+                    <input class="btn-submit" type="submit" value="Save">
+                </div>
+                <div class="form-field col-lg-6">
+                    <input class="btn-cancel" type="button" value="Cancel" id="btn-Cancel">
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <div th:replace="~{modal_fragment :: modal_dialog}"></div>
+
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+</div>
+<script type="text/javascript" th:src="@{/js/common_form.js}"></script>
+<script type="text/javascript">
+    moduleUrl = "[[@{/products}]]";
+    brandModuleUrl = "[[@{/brands}]]";
+    defauleImage = "[[@{/images/default_product.jpg}]]";
+    urlCheckProduct = "[[@{/products/check_unique}]]"
+</script>
+<script type="text/javascript" th:src="@{/js/product_form_overview.js}"></script>
+<script type="text/javascript" th:src="@{/js/product_form_images.js}"></script>
+<script type="text/javascript" th:src="@{/js/product_form_details.js}"></script>
+</body>
+</html>

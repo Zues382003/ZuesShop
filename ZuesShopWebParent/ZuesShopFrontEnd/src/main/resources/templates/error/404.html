@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html , charset = UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}">
+  <title>Error</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/error.css}">
+</head>
+
+<body>
+  <div class="error_404">
+    <p>404</p>
+    <h2>Look like you're lost</h2>
+    <h5>the page you are looking for not avaible!</h5>
+    <a th:replace="~{custom :: btn-custom-3('Go Back Home','/','tag')}" ></a>
+  </div>
+</body>
+
+</html>

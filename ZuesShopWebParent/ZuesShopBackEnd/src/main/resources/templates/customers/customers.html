@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_Head('Customers - ZuesShop','none')}"></head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <section class="m-4">
+        <h1 class="title color-title">Manage Customers</h1>
+    </section>
+
+    <hr class="bold-hr mb-5">
+
+    <!--  Tạo alert thông báo-->
+    <div th:replace="~{fragments :: meassage(${messageSuccess}, ${messageError})}"></div>
+    <!--  -->
+    <!--      Search-->
+    <div th:replace="~{fragments :: search('/customers','tag')}"></div>
+
+    <!--Table Customers-->
+    <p class="my-4">
+        <a class="btn btn-square-pink fa-2x mr-3" title="Create New Customer"
+           th:href="@{/customers/new}">
+            <i class="bi bi-plus-square-fill fa-solid fa-plus"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3" title="Export to CSV"
+           th:href="@{/customers/export/csv}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-csv"></i>
+        </a>
+    </p>
+
+    <div class="full-details">
+        <table class="table table-hover table-bordered table-striped table-responsive-sm">
+            <thead>
+            <tr>
+                <th th:replace="~{fragments :: column_Link('/customers','id','ID','none')}"></th>
+                <th th:replace="~{fragments :: column_Link('/customers','firstName','First Name','none')}"></th>
+                <th th:replace="~{fragments :: column_Link('/customers','lastName','Last Name','none')}"></th>
+
+                <th class="hideable-column th_td_table">
+                <th th:replace="~{fragments :: column_Link('/customers','email','E-mail','tag')}"></th>
+                </th>
+
+                <th class="hideable-column th_td_table">
+                <th th:replace="~{fragments :: column_Link('/customers','city','City','tag')}"></th>
+                </th>
+
+                <th class="hideable-column th_td_table">
+                <th th:replace="~{fragments :: column_Link('/customers','state','State','tag')}"></th>
+                </th>
+
+                <th th:replace="~{fragments :: column_Link('/customers','country','Country','none')}"></th>
+                <th th:replace="~{fragments :: column_Link('/customers','enabled','Enabled','none')}"></th>
+                <th class="th_td_table">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${listCustomers}">
+                <td class="th_td_table" th:text="${item.id}"></td>
+                <td class="th_td_table" th:text="${item.firstName}"></td>
+                <td class="th_td_table" th:text="${item.lastName}"></td>
+                <td class="hideable-column th_td_table" th:text="${item.email}"></td>
+                <td class="hideable-column th_td_table" th:text="${item.city}"></td>
+                <td class="hideable-column th_td_table" th:text="${item.state}"></td>
+                <td class="th_td_table" th:text="${item.country.name}"></td>
+
+                <td class="pointer-event th_td_table">
+                    <div th:replace="~{fragments :: status( '/customers/', ${item.enabled}, ${item.id}, 'customer')}"></div>
+                </td>
+                <td class="text-center" style="vertical-align: middle">
+                    <a class="btn btn-square-pink m-3 link-detail" style="font-size: 2rem;"
+                       th:href="@{'/customers/detail/' + ${item.id}}" title="This customer details">
+                        <i class="bi bi-pencil-fill fa-solid fa-eye"></i>
+                    </a>
+                    <a th:replace="~{fragments :: edit('/customers/', ${item.id}, ' customer')}"></a>
+                    <a th:replace="~{fragments :: delete('/customers/', ${item.id}, ' customer',true)}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!--less Details-->
+    <div class="less-details mt-5">
+        <div th:each="item, index : ${listCustomers}" style="display: grid; pointer-events: none;">
+            <article class="article-wrapper mb-5" style="place-self: center;">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <span class="font-weight-bold font-xl position-relative" th:text="${item.fullName}"></span>
+                        <div class="position-absolute" style="right: 30px; top: 4px" >
+                            <div th:replace="~{fragments :: status( '/customers/', ${item.enabled}, ${item.id}, 'customer')}"></div>
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <span class="font-md" th:text="${item.country.name}"></span>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center">
+                        <span class="font-md" th:text="${item.email}"></span>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-4 d-flex justify-content-center align-items-center">
+                        <a class="btn btn-square-pink m-3 link-detail" style="font-size: 2rem;"
+                           th:href="@{'/customers/detail/' + ${item.id}}" title="This customer details">
+                            <i class="bi bi-pencil-fill fa-solid fa-eye"></i>
+                        </a>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center align-items-center">
+                        <a th:replace="~{fragments :: edit('/customers/', ${item.id}, ' customer')}"></a>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center align-items-center">
+                        <a th:replace="~{fragments :: delete('/customers/', ${item.id}, ' customer',true)}"></a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!--  -->
+
+    <div th:replace="~{modal_fragment :: confirm_modal}"></div>
+
+    <div th:replace="~{fragments :: pagination('customers', 'customers')}"></div>
+
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+    moduleURl = "[[@{/customers}]]";
+
+    $(document).ready(function () {
+        $(".link-delete").on("click", function (e) {
+            e.preventDefault();
+
+            showDeleteConfirmModal($(this), 'customer');
+        });
+    });
+
+    $(".link-detail").on("click", function (e) {
+        e.preventDefault();
+
+        linkDetailUrl = $(this).attr("href");
+        $("#detailModal").modal("show").find(".modal-content").load(linkDetailUrl);
+    });
+
+
+</script>
+</body>
+</html>

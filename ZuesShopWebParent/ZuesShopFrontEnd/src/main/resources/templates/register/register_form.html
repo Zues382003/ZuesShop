@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments :: page_Head(${pageTitle},'none')}">
+<body>
+    <div class="container-fluid">
+        <div th:replace="~{navigation :: head_menu}"></div>
+
+        <section class="get_in_touch">
+            <h1 class="title">[[${pageTitle}]]</h1>
+
+            <form th:action="@{/create_customer}" method="post" th:object="${customer}"
+                  onsubmit="return checkEmailUnique(this)"
+                  enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}">
+                <div class="container">
+                    <div class="contact-form row">
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{firstName}" required minlength="3" maxlength="45">
+                            <label class="label">First Name:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{lastName}" required minlength="3" maxlength="45">
+                            <label class="label">Last Name:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{phoneNumber}" required minlength="8" maxlength="15">
+                            <label class="label">Phone Number:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="email" th:field="*{email}" required minlength="8" maxlength="128">
+                            <label class="label">Email:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="password"
+                                   oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"
+                                   th:field="*{password}" required minlength="8" maxlength="64">
+                            <label class="label">Password:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" id="confirmPassword"
+                                   oninput="checkPasswordMatch(this)"
+                                   type="password" th:field="*{password}" required minlength="8" maxlength="64">
+                            <label class="label">Re-type Password:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{addressLine1}" required minlength="3" maxlength="64">
+                            <label class="label">Address Line 1:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{addressLine2}" maxlength="64">
+                            <label class="label">Address Line 2:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{city}" minlength="2" maxlength="64">
+                            <label class="label">City:</label>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <label class="label mb-4">Country:</label>
+                            <div class="col-lg-12 p-0 mt-3">
+                                <select class="form-control font-sm" required th:field="*{country}">
+                                    <th:block th:each="country :${listCountries}">
+                                        <option th:value="${country.id}">[[${country.name}]]</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <label class="label mb-4">State/Province:</label>
+                            <div class="col-lg-12 p-0 mt-3">
+                                <input class="form-control font-sm" type="text"
+                                       list="listStates" required th:field="*{state}" minlength="3" maxlength="45">
+                                <datalist id="listStates"></datalist>
+                            </div>
+                        </div>
+                        <div class="form-field col-lg-6 my-5">
+                            <input class="input-text js-input-form" type="text" th:field="*{postalCode}" required minlength="2" maxlength="10">
+                            <label class="label">Postal Code:</label>
+                        </div>
+
+                        <div class="form-field col-lg-12">
+                            <input class="btn-submit" type="submit" value="Create Account" >
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <div th:replace="~{fragments :: modal_dialog}"></div>
+        <div th:replace="~{navigation :: bottom_menu}"></div>
+        <div th:replace="~{navigation :: footer}"></div>
+    </div>
+
+    <script th:src="@{/js/common_form.js}"></script>
+    <script type="text/javascript">
+        contextPath = "[[@{/}]]";
+
+        var dropDownCountry;
+        var dataListState;
+        var fieldState;
+
+        $(document).ready(function (){
+            dropDownCountry = $("#country");
+            dataListState = $("#listStates");
+            fieldState = $("#state");
+
+            dropDownCountry.on("change", function (){
+                loadStatesForCountry();
+                fieldState.val("").focus();
+            })
+        });
+
+        function loadStatesForCountry(){
+            selectedCountry = $("#country option:selected");
+            countryId = selectedCountry.val();
+            url = contextPath + "settings/list_states_by_country/" + countryId;
+            $.get(url, function (responseJson){
+                dataListState.empty();
+                $.each(responseJson,function (index, state){
+                    $("<option>").val(state.name).text(state.name).appendTo(dataListState);
+                });
+            }).fail(function (){
+               alert('failed to connected to the serve!');
+            });
+        }
+        function checkPasswordMatch(confirmPassword){
+            if(confirmPassword.value != $("#password").val()){
+
+                confirmPassword.setCustomValidity("Password don't match!");
+            }else {
+                confirmPassword.setCustomValidity("");
+            }
+        }
+
+        function checkEmailUnique(form){
+            url = contextPath + "customers/check_unique_email";
+            customerEmail = $("#email").val();//do th:field=*{}
+            csrfValue = $("input[name='_csrf']").val();
+            params = {email: customerEmail, _csrf: csrfValue};//do param bên post nhận email
+
+            $.post(url,params,function (response){
+                if(response === "Ok"){
+                    form.submit();
+                }else if(response === "Duplicated") {
+                    showWarningModal("There is another customer having the email: "+ customerEmail);
+                }else{
+                    showErrorModal("Unknow response from server");
+                }
+            }).fail(function (){
+                showErrorModal("Could not connect to server");
+            });
+
+            return false;
+        }
+    </script>
+</body>
+</html>

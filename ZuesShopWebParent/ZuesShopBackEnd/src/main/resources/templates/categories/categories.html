@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_Head('Categories - ZuesShop','none')}"></head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <section class="m-4">
+        <h1 class="title color-title">Manage Categories</h1>
+    </section>
+
+    <hr class="bold-hr mb-5">
+
+    <!--  Tạo alert thông báo-->
+    <div th:replace="~{fragments :: meassage(${messageSuccess}, ${messageError})}"></div>
+    <!--  -->
+<!--      Search-->
+    <div th:replace="~{fragments :: search('/categories','tag')}"></div>
+
+    <!--Table Category-->
+    <p class="my-4">
+        <a class="btn btn-square-pink fa-2x mr-3" title="Create New Category"
+           th:href="@{/categories/new}">
+            <i class="bi bi-plus-square-fill fa-solid fa-plus"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3" title="Export to CSV"
+           th:href="@{/categories/export/csv}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-csv"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3" title="Export to Excel"
+           th:href="@{/categories/export/excel}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-excel"></i>
+        </a>
+    </p>
+
+    <div class="full-details">
+        <table class="table table-hover table-bordered table-striped table-responsive-sm">
+            <thead>
+            <tr>
+                <th class="th_td_table">Category ID</th>
+                <th class="th_td_table">Category Image</th>
+                <th th:replace="~{fragments :: column_Link('/categories','name','Category Name','none')}"></th>
+                <th class="hideable-column th_td_table">Alias</th>
+                <th class="th_td_table">Enabled</th>
+                <th class="th_td_table">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${listCategory}">
+                <td class="th_td_table" th:text="${item.id}"></td>
+                <td class="th_td_table">
+                    <img th:if="${item.image == 'default_category.jpg'}" class="entity_images"  style="width: 150px; height: 150px; " th:src="@{/images/default_category.jpg}">
+                    <img th:if="${item.image != 'default_category.jpg'}" class="entity_images"  style="width: 150px; height: 150px; " th:src="@{${item.getImagesPath()}}" >
+                </td>
+                <td style="font-size: 1.3rem; vertical-align: middle; text-align: left;" th:text="${item.name}"></td>
+                <td class="hideable-column" style="font-size: 1.3rem; vertical-align: middle; text-align: left;" th:text="${item.alias}"></td>
+                <td class="pointer-event th_td_table">
+                    <div th:replace="~{fragments :: status( '/categories/', ${item.enabled}, ${item.id}, 'category')}"></div>
+                </td>
+                <td class="text-center" style="vertical-align: middle">
+                    <a th:replace="~{fragments :: edit('/categories/', ${item.id}, 'category')}"></a>
+                    <a th:replace="~{fragments :: delete('/categories/', ${item.id}, 'category', ${!item.hasChildren})}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!--less Details-->
+    <div class="less-details mt-5">
+        <div th:each="item, index : ${listCategory}" style="display: grid">
+            <article class="article-wrapper mb-5" style="place-self: center;">
+                <div>
+                    <img class="rounded-lg container-project" th:src="@{${item.getImagesPath()}}">
+                </div>
+                <div class="project-info" style="position: relative">
+                    <div class="flex-pr" style="margin: 0 -10px 10px 0;">
+                        <div class="project-title text-nowrap">[[${item.name}]]</div>
+                        <a class="project-hover" th:id="'editCard' + ${index.count}" th:href="@{'/categories/edit/' + ${item.id}}" title="Edit this category">
+                            <svg style="color: black;" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" color="black" stroke-linejoin="round" stroke-linecap="round" viewBox="0 0 24 24" stroke-width="2" fill="none" stroke="currentColor"><line y2="12" x2="19" y1="12" x1="5"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
+                    <div class="types" th:id="'action' + ${index.count}">
+                        <div class="pointer-event">
+                            <a th:if="${item.enabled == true}" th:href="@{'/categories/' + ${item.id} + '/enabled/false'}" title="Disable this category">
+                                <i class="fa-solid fa-check" style="color: dodgerblue;font-size: 2.4rem" ></i>
+                            </a>
+                            <a th:if="${item.enabled == false}" th:href="@{'/categories/' + ${item.id} + '/enabled/true'}" title="Enable this category">
+                                <i class="fa-solid fa-xmark " style="color: red;font-size: 2.5rem"></i>
+                            </a>
+                        </div>
+                        <div style="position: absolute; bottom: 0; right: 0;">
+                            <a th:replace="~{fragments :: delete('/categories/', ${item.id}, 'category', ${!item.hasChildren})}"></a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!--  -->
+
+    <div th:replace="~{modal_fragment :: confirm_modal}"></div>
+
+    <div th:replace="~{fragments :: pagination('categories', 'categories')}"></div>
+
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+    moduleURl = "[[@{/categories}]]";
+
+    $(document).ready(function (){
+        $(".link-delete").on("click",function (e){
+            e.preventDefault();
+
+            showDeleteConfirmModal($(this),'category');
+        });
+    });
+
+
+</script>
+</body>
+</html>

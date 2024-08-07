@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="content" th:remove="tag">
+        <a style="display: flex; flex-direction: column; justify-content: end"
+           th:href="@{'/p/' + ${product.alias}}">
+            <div class="m-2" style="display: flex; justify-content: center">
+                <img class="m-2" th:src="@{${product.mainImagePath}}" width="80">
+            </div>
+            <div class="text-center">
+                <a class="m-2 font-sm color-black"
+                   th:href="@{'/p/' + ${product.alias}}">[[${product.shortName}]]</a>
+            </div>
+            <div class="text-center font-sm m-2" th:if="${product.discountPercent <= 0}">
+                <div th:replace="~{/product/product_fragment :: price_fragment(${product.price})}"></div>
+            </div>
+            <div class="text-center" th:if="${product.discountPercent > 0}">
+                <span class="font-md m-2" style="color: red">
+                     <div th:replace="~{/product/product_fragment :: price_fragment(${product.discountPrice})}"></div>
+                </span>
+                <del class="font-sm">
+                    <span>$[[${product.price}]]</span>
+                </del>
+            </div>
+        </a>
+    </div>
+    <div th:fragment="price_fragment(productPrice)" th:remove="tag">
+        <span th:if="${CURRENCY_SYMBOL_POSITION} == 'before price'" >[[${CURRENCY_SYMBOL}]][[${#numbers.formatDecimal(productPrice, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]]</span>
+        <span th:if="${CURRENCY_SYMBOL_POSITION} == 'after price'" >[[${#numbers.formatDecimal(productPrice, 1, THOUSANDS_POINT_TYPE, DECIMAL_DIGITS, DECIMAL_POINT_TYPE)}]][[${CURRENCY_SYMBOL}]]</span>
+    </div>
+</body>
+</html>

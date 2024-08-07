@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <form th:action="@{/settings/save_general}" class="contact-form row mt-5" method="post" enctype="multipart/form-data">
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="SITE_NAME" th:value="${SITE_NAME}" type="text" required>
+            <label class="label">Site Name:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2 my-5">
+            <input class="input-text js-input-form" name="COPYRIGHT" th:value="${COPYRIGHT}" type="text" required>
+            <label class="label">Copyright:</label>
+        </div>
+
+        <div class="col-md-8 offset-md-2" style="align-items: center;justify-content: left; margin-bottom: 3rem;">
+            <label for="fileImage" class="label_new-user-role ">Site Logo:</label>
+            <input id="fileImage" name="FileImageSite" class="js-input-form ml-2 font-sm" type="file"
+                   accept="image/png, image/jpeg">
+        </div>
+        <div class="form-field col-lg-12" style="align-items: center; margin-top:0">
+            <img id="thumbnail" alt="Site Logo thumbnail" class="entity_images" th:src="@{${SITE_LOGO}}"/>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Currency Type:</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="CURRENCY_ID" required>
+                <th:block th:each="currency : ${listCurrencies}">
+                    <option th:value="${currency.id}" th:selected="${currency.id} == ${CURRENCY_ID}">[[${currency}]]
+                    </option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Currency Symbol Position:</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="CURRENCY_SYMBOL_POSITION" >
+                <option value="before price" th:selected="${CURRENCY_SYMBOL_POSITION} == 'before price'">
+                    Before Price
+                </option>
+                <option value="after price" th:selected="${CURRENCY_SYMBOL_POSITION} == 'after price'">
+                    After Price
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Decimal Point Type:</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="DECIMAL_POINT_TYPE" >
+                <option value="POINT" th:selected="${DECIMAL_POINT_TYPE} == 'POINT'">
+                    Point (.)
+                </option>
+                <option value="COMMA" th:selected="${DECIMAL_POINT_TYPE} == 'COMMA'">
+                    Comma (,)
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Decimal Digits:</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="DECIMAL_DIGITS" >
+                <option value="0" th:selected="${DECIMAL_DIGITS} == '0'">
+                    0
+                </option>
+                <option value="1" th:selected="${DECIMAL_DIGITS} == '1'">
+                    1
+                </option>
+                <option value="2" th:selected="${DECIMAL_DIGITS} == '2'">
+                   2
+                </option>
+                <option value="3" th:selected="${DECIMAL_DIGITS} == '3'">
+                    3
+                </option>
+                <option value="4" th:selected="${DECIMAL_DIGITS} == '4'">
+                    4
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-8 offset-md-2 align-items-center justify-content-start">
+            <label class="label_new-user-role col-3 p-0" style="white-space: nowrap;">Thousand Point Type:</label>
+        </div>
+        <div class="col-md-8 offset-md-2 my-2 align-items-center d-flex justify-content-center my-3">
+            <select class="form-control col-9 font-sm" name="THOUSANDS_POINT_TYPE" >
+                <option value="POINT" th:selected="${THOUSANDS_POINT_TYPE} == 'POINT'">
+                    Point (.)
+                </option>
+                <option value="COMMA" th:selected="${THOUSANDS_POINT_TYPE} == 'COMMA'">
+                    Comma (,)
+                </option>
+            </select>
+        </div>
+
+        <div class="form-field col-lg-12">
+            <input class="btn-submit" type="submit" value="Save">
+        </div>
+    </form>
+</div>
+</body>
+</html>

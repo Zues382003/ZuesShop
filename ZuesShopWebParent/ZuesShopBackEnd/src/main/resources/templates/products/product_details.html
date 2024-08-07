@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div class="row m-3" style="display: flex; justify-content: space-around">
+        <th:block th:each="detail, status : ${product.details}">
+            <div class="col-lg-5 border color-font p-4 mt-3" th:id="'divDetail' + ${status.index}">
+                <input type="hidden" name="detailIDs" th:value="${detail.id}">
+                <label class="m-3" style="font-size: 1.8rem">Name:</label>
+                <input style="font-size: 1.6rem" type="text" class="form-control bold" name="detailNames" maxlength="255" th:value="${detail.name}">
+                <label class="m-3" style="font-size: 1.8rem">Value:</label>
+                <input style="font-size: 1.6rem" type="text" class="form-control" name="detailValues" maxlength="255" th:value="${detail.value}">
+                <a class="btn fas fa-times-circle fa-2x mt-3 icon-dark float-right"
+                   name = "linkRemoveDetail"
+                   style="cursor: pointer; color: black" title="Remove this detail"></a>
+            </div>
+        </th:block>
+    </div>
+
+    <div class="row m-3" style="display: flex; justify-content: space-around" id="divProductDetails">
+        <div class="col-lg-5 border color-font p-4 mt-4" th:id="'divDetail' + ${#lists.size(product.details)}"><!--kích thước tương ứng với số lượng item-->
+            <input type="hidden" name="detailIDs" value="0">
+            <label class="m-3" style="font-size: 1.8rem">Name:</label>
+            <input style="font-size: 1.6rem" type="text" class="form-control" name="detailNames" maxlength="255">
+            <label class="m-3" style="font-size: 1.8rem">Value:</label>
+            <input style="font-size: 1.6rem" type="text" class="form-control" name="detailValues" maxlength="255">
+        </div>
+    </div>
+</div>
+</body>
+</html>

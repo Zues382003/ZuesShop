@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/custom.css}">
+</head>
+<body>
+<div th:fragment="btn-custom-3(title,url,tag)" th:remove="${tag}">
+    <a th:href="@{${url}}">
+        <button type="button" class="custom-btn btn-3"><span>[[${title}]]</span></button>
+    </a>
+</div>
+
+<div th:fragment="addToCart(title,url,tag)" th:remove="${tag}">
+    <button th:href="${url}" class="add_to_cart font-md" style="height: 3.6rem; white-space: nowrap" ><span>[[${title}]]</span></button>
+</div>
+</body>
+</html>

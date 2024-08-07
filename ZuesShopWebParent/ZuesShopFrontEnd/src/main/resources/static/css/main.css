@@ -1,0 +1,156 @@
+.bg-header{
+    background-image: linear-gradient(90deg,#12c2e9, #c471ed, #f64f59);
+}
+
+.btn-page{
+    width: 36px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.box{
+    width: 100%;
+}
+.box .search-box{
+    position: relative;
+    height: 40px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.25);
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.search-box input{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+    background:#fff;
+    outline: none;
+    border:none;
+    padding-left: 20px;
+    font-size: 1.8rem;
+}
+.search-box .icon{
+    position: absolute;
+    right: -2px;
+    top: 0;
+    width: 54px;
+    height: 100%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 2rem;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    background: #da62ab;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.25);
+    color: #FFF;
+}
+
+/*Customer Registration*/
+.get_in_touch{
+    max-width: 800px;
+    margin: 50px auto;
+    position:  relative;
+    box-shadow:  0 10px 30px 0px rgba(0,0,0,0.1);
+    padding: 30px;
+}
+
+.get_in_touch .title{
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 2px;
+    font-size: 2.6rem;
+    line-height: 3.8rem;
+    padding-bottom: 20px;
+    color:#5543ca;
+    background: linear-gradient(to right ,#f4524d, #5543ca) ;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.contact-form .form-field{
+    position: relative;
+    margin: 24px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-form .input-text{
+    display: block;
+    width: 100%;
+    height: 36px;
+    border-width: 0 0 2px 0;
+    border-color:#5543ca;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+    font-weight: 400;
+}
+
+.contact-form .input-text:focus + .label,
+.contact-form .input-text.is-valid+ .label{
+    transform:translateY(-10px);
+    transition: transform 0.3s ease-in-out;
+}
+
+.contact-form .input-text:focus{
+    outline: none;
+}
+
+.contact-form .label{
+    position: absolute;
+    left: 14px;
+    bottom: 22px;
+    font-size: 1.8rem;
+    line-height: 2.6rem;
+    font-weight: 400;
+    color: #5543ca;
+    cursor:text;
+    text-transform: capitalize;//chu cai dau tien moi tu thanh in hoa
+transition: transform 0.2s ease-in-out;
+}
+
+.contact-form .btn-submit{
+    display: inline-block;
+    background-image: linear-gradient(125deg, #a72878, #064497);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.6rem;
+    padding:8px 16px;
+    border:none;
+    width: 200px;
+    cursor: pointer;
+}
+
+.contact-form .btn-submit:hover{
+    opacity: 0.8;
+}
+
+.contact-form .btn-cancel{
+    display: inline-block;
+    color: #fff;
+    background-image: linear-gradient(205deg, #a72878, #064497);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.6rem;
+    padding:8px 16px;
+    border:none;
+    width: 200px;
+    cursor: pointer;
+}
+
+.contact-form .btn-cancel:hover{
+    opacity: 0.8;
+}
+
+.label_new-user-role{
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: #5543ca;
+    cursor:text;
+    text-transform: capitalize;//chu cai dau tien moi tu thanh in hoa
+}
+/**/
+

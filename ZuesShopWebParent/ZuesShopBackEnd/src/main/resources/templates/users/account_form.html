@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_Head('Your Account details','none')}"></head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <!--  Tạo alert thông báo-->
+    <div th:if="${messageSuccess != null}" class="alert alert-success text-center" style="font-size: 1.6rem">
+        [[${messageSuccess}]]
+    </div>
+    <div th:if="${messageError != null}" class="alert alert-danger text-center" style="font-size: 1.6rem">
+        [[${messageError}]]
+    </div>
+    <!--  -->
+
+    <section class="get_in_touch">
+        <h1 class="title">Your Account Details</h1>
+
+        <form th:action="@{/account/update}" method="post" th:object="${user}"
+              enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}">
+            <div class="container">
+                <div class="contact-form row">
+                    <div class="form-field col-lg-12 offset-lg-3" >
+                        <input id="email" class="input-text js-input-form" style="background: lightgrey" type="email" th:field="*{email}" readonly="readonly">
+                        <label for="email" class="label">Email</label>
+                    </div>
+                    <div class="form-field col-lg-6">
+                        <input id="firstName" class="input-text js-input-form" type="text" th:field="*{firstName}" required minlength="2" maxlength="45">
+                        <label for="firstName" class="label">First Name</label>
+                    </div>
+                    <div class="form-field col-lg-6">
+                        <input id="lastName" class="input-text js-input-form" type="text" th:field="*{lastName}" required minlength="2" maxlength="45">
+                        <label for="lastName" class="label">Last Name</label>
+                    </div>
+                    <div class="form-field col-lg-6">
+                        <input oninput="checkPasswordMatch(document.getElementById('confirmPassword'))" class="input-text js-input-form" type="password" th:field="*{password}" placeholder="Leave blank if you don't change password"  minlength="8" maxlength="20">
+                        <label class="label">Password</label>
+                    </div>
+                    <div class="form-field col-lg-6">
+                        <input oninput="checkPasswordMatch(this)" class="input-text js-input-form" type="password" id="confirmPassword"  minlength="8" maxlength="20">
+                        <label class="label">Confirm Password</label>
+                    </div>
+                    <div class="form-field col-lg-12" style="justify-content: left">
+                        <label class="label_new-user-role">Assigned Roles:</label>
+                        <div class="ml-2" style="font-size: 1.8rem">
+                            <span><b>[[${user.roles}]]</b></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-field col-lg-12" style="justify-content: left">
+                        <input type="hidden" th:field="*{photos}">
+                        <label for="fileImage" class="label_new-user-role mr-2">Photos:</label>
+                        <input  id="fileImage" name="image"  class=" js-input-form" style="font-size: 1.4rem" type="file" accept="image/png, image/jpeg" >
+                    </div>
+
+                    <div class="form-field col-lg-12" style="align-items: center;">
+                        <img  id="thumbnail" alt="Photos preview" class="user_avatar" th:src="@{${user.photosImagePath}}"/>
+                    </div>
+
+                    <div class="form-field col-lg-6">
+                        <input class="btn-submit" type="submit" value="Save" >
+                    </div>
+                    <div class="form-field col-lg-6">
+                        <input class="btn-cancel" type="button" value="Cancel" id="btn-Cancel">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <div class="modal fade text-center" id="modalDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title text-danger" id="modalTitle">Warning</h2>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="modalBody" style="font-size: 1.4rem"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" style="font-size: 1.4rem" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+</div>
+<script th:src="@{/js/common_form.js}"></script>
+<script type="text/javascript">
+    function checkPasswordMatch(confirmPassword){
+        if(confirmPassword.value != $("#password").val()){
+
+            confirmPassword.setCustomValidity("Password don't match!");
+        }else {
+            confirmPassword.setCustomValidity("");
+        }
+    }
+</script>
+</body>
+</html>

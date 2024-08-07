@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="menu">
+    <form th:action="@{/logout}" method="POST" th:hidden="true" name="logoutForm">
+        <input type="submit">
+    </form>
+    <nav class="navbar navbar-expand-xl bg-header">
+        <a class="navbar-brand" th:href="@{/}">
+            <img class="ml-xl-3" th:src="@{/images/logo-zuesshop.png}" alt="Logo" height="60px">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+            <i class="fa-solid fa-bars color-white" style="font-size: 2.5rem"></i>
+        </button>
+
+        <div class="collapse navbar-collapse ml-lg-0  ml-sm-4 justify-content-center" id="topNavbar">
+            <ul class="navbar-nav m-3">
+                <li class="nav-item dropdown" sec:authorize="hasAuthority('Admin')">
+                    <a class="nav-link dropdown-toggle custom-bootstrap color-white font-xl" data-toggle="dropdown" th:href="@{/users}">Users</a>
+                    <div class="dropdown-menu" style="width: 100px;">
+                        <a class="dropdown-item" th:href="@{/users/new}">Create New</a>
+                        <a class="dropdown-item" th:href="@{/users}">View All</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Admin','Editor')">
+                    <a class="nav-link dropdown-toggle custom-bootstrap color-white font-xl" data-toggle="dropdown" th:href="@{/categories}">Categories</a>
+                    <div class="dropdown-menu" style="width: 100px">
+                        <a class="dropdown-item" th:href="@{/categories/new}">Create New</a>
+                        <a class="dropdown-item" th:href="@{/categories}">View All</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Admin','Editor')">
+                    <a class="nav-link dropdown-toggle custom-bootstrap color-white font-xl" data-toggle="dropdown" th:href="@{/brands}">Brands</a>
+                    <div class="dropdown-menu" style="width: 100px">
+                        <a class="dropdown-item" th:href="@{/brands/new}">Create New</a>
+                        <a class="dropdown-item"  th:href="@{/brands}">View All</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="hasAnyAuthority('Admin','Editor','Salesperson','Shipper')">
+                    <a class="nav-link dropdown-toggle custom-bootstrap color-white font-xl" data-toggle="dropdown" th:href="@{/products}">Products</a>
+                    <div class="dropdown-menu" style="width: 100px">
+                        <a class="dropdown-item" th:href="@{/products/new}">Create New</a>
+                        <a class="dropdown-item" th:href="@{/products}">View All</a>
+                    </div>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/customers}">Customers</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/shipping}">Shipping</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('Admin','Salesperson','Shipper')">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/orders}">Orders</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('Admin','Salesperson')">
+                    <a class="nav-link custom-bootstrap color-white font-xl" style="white-space: nowrap"
+                       th:href="@{/report}">Sales Report</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('Admin','Editor')">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/articles}">Articles</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyAuthority('Admin','Editor')">
+                    <a class="nav-link custom-bootstrap color-white font-xl" th:href="@{/menus}">Menus</a>
+                </li>
+                <li class="nav-item dropdown" sec:authorize="hasAuthority('Admin')">
+                    <a class="nav-link dropdown-toggle custom-bootstrap color-white font-xl" data-toggle="dropdown"
+                       th:href="@{/settings}">Settings</a>
+                    <div class="dropdown-menu" style="width: 100px;">
+                        <a class="dropdown-item" th:href="@{/settings#general}">General</a>
+                        <a class="dropdown-item" th:href="@{/settings#countries}">Countries</a>
+                        <a class="dropdown-item" th:href="@{/settings#states}">States</a>
+                        <a class="dropdown-item" th:href="@{/settings#mailServer}">Mail Server</a>
+                        <a class="dropdown-item" th:href="@{/settings#mailTemplates}">Mail Templates</a>
+                        <a class="dropdown-item" th:href="@{/settings#payment}">Payment</a>
+                    </div>
+                </li>
+                <li class="nav-item ml-0 ml-xl-5 my-3 my-xl-0" style="display: flex">
+                    <a sec:authentication='principal.photosimagepath' id="imagePathFormSec" hidden=""></a>
+                    <a th:href="@{/account}">
+                        <img id="receiverImagePathFromSec" class="navigation_avatar mr-3 mr-xl-2" src="">
+                    </a>
+                    <div class="nav-item dropdown">
+                        <span class="nav-link dropdown-toggle custom-bootstrap color-white" data-toggle="dropdown"
+                              style="font-size: 1.8rem; cursor: pointer" sec:authentication="principal.fullname">Welcome, User!</span>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item text-center" id="logoutLink" href="">Log out</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

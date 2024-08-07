@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_Head(${pageTitle},'none')}"></head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: head_menu}"></div>
+    <div th:replace="~{breadcrumb :: content}"></div>
+    <div th:replace="~{fragments :: search_nav}"></div>
+
+    <div class="row m-4">
+        <div class="col-6 col-sm-3 col col-md-2" th:each="cat : ${category.getChildren()}">
+            <a th:if="${cat.getEnabled() == true}" th:href="@{'/c/' + ${cat.alias}}"
+               style="display: flex; flex-direction: column; justify-content: end">
+                <div class="m-2" style="display: flex; justify-content: center">
+                    <img class="m-2" th:src="@{${cat.imagesPath}}" width="80">
+                </div>
+                <div class="text-center">
+                    <a class="m-2 font-md color-pink" th:href="@{'/c/' + ${cat.alias}}">[[${cat.name}]]</a>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <hr class="my-4 bold-hr">
+
+    <div class="row m-4">
+        <div class="col-6 col-sm-3 col col-md-2" th:each="product : ${listProducts}">
+            <div th:replace="~{product/product_fragment :: content}"></div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments :: pagination('/c/' + ${category.alias}, 'product')}"></div>
+    <div th:replace="~{navigation :: bottom_menu}"></div>
+    <div th:replace="~{navigation :: footer}"></div>
+</div>
+</body>
+</html>

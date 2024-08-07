@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments :: page_Head('Home - ZuesShop','none')}">
+<body>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+    <div>
+        <h1 class="text-center my-4">ZuesShop Control Panel</h1>
+       <div class="text-center mb-4">
+           <span  class="bold" style="font-size: 2rem">Welcome</span>
+           <a th:href="@{/account}"  style="font-size: 1.4rem; cursor: pointer" sec:authentication="principal.fullname">Welcome, User!</a>
+           <span sec:authentication="principal.authorities" style="font-size: 1.4rem"></span>
+       </div>
+
+    </div>
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+</div>
+</body>
+</html>

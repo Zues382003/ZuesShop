@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_Head('Login - ZuesShop','none')}"></head>
+<body>
+  <div class="container-fluid container-form-box">
+    <div class="form-box">
+      <div class="form-value">
+        <form th:action="@{/login}" method="post">
+          <div th:if="${param.logout}">
+            <h2 class="text-warning text-center font-weight-light">You have been logged out!</h2>
+          </div>
+          <div th:if="${param.error}">
+            <h2 class="text-danger text-center font-weight-light">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</h2>
+          </div>
+          <h2 class="title-login">Login</h2>
+          <div class="inputbox">
+            <i class="fa-solid fa-envelope"></i>
+            <input name="email" class="input_login js-form-login" type="email"  required minlength="8" maxlength="128">
+            <label class="label_login">Email</label>
+          </div>
+          <div class="inputbox">
+            <i class="fa-solid fa-lock"></i>
+            <input name="password" class="input_login js-form-login" type="password" required  maxlength="20">
+            <label class="label_login">Password</label>
+          </div>
+          <div class="forget">
+<!--            <input type="checkbox" value="true" checked name="remember-me">-->
+<!--            <label>Remember Me</label>-->
+            <div class="cntr">
+              <input type="checkbox" id="cbx" name="remember-me" class="hidden-xs-up">
+              <label for="cbx" style="white-space: nowrap; font-size: 2rem" class="cbx">
+                <span style="position: relative; right: -32px; top: -2px">Remember me</span>
+              </label>
+            </div>
+          </div>
+          <input class="btn_login" name="submit" type="submit" value="Log in">
+        </form>
+      </div>
+    </div>
+  </div>
+<script>
+  //show animation when focus in input at user-form
+  const input_login = document.querySelectorAll('.input_login')
+
+  for(const item of input_login){
+    item.addEventListener('input',function (){
+
+      if(String(item.value).length>0)
+      {
+        item.classList.add('is-valid');
+      }
+      else{
+        item.classList.remove('is-valid');
+      }
+
+    })
+
+    // Kiểm tra độ dài giá trị ban đầu khi binding dữ liệu
+    if(String(item.value).length>0)
+    {
+      item.classList.add('is-valid');
+    }
+    else{
+      item.classList.remove('is-valid');
+    }
+  }
+  //
+</script>
+</body>
+</html>

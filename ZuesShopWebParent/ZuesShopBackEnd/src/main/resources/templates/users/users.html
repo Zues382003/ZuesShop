@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_Head('Users - ZuesShop','none')}"></head>
+<div class="container-fluid">
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <section class="m-4">
+        <h1 class="title color-title">Manage Users</h1>
+    </section>
+
+    <hr class="bold-hr mb-5">
+
+    <!--  Tạo alert thông báo-->
+    <div th:replace="~{fragments :: meassage(${messageSuccess}, ${messageError})}"></div>
+    <!--  -->
+
+    <!--  Search-->
+    <form th:action="@{/users/page/1}" id="searchForm" class="search-box justify-content-center my-4">
+        <input type="hidden" name="sortField" th:value="${sortField}">
+        <input type="hidden" name="sortDirection" th:value="${sortDirection}">
+        <div class="font-xl pr-3 py-3" style="display: flex; width: 100%; max-width: 400px;">
+            <label class="mr-3" style="color: #a72878;">Roles:</label>
+            <select class="form-control font-md" name="roleId" id="dropdownRole">
+                <option value="0">All Role</option>
+
+                <th:block th:each="role : ${listRoles}">
+                    <option th:selected="(${role.id} == ${roleId})" th:value="${role.id}">- [[${role.name}]]</option>
+                </th:block>
+            </select>
+        </div>
+        <div class="box p-3">
+            <div class="search-box justify-content-center">
+                <input type="search" placeholder="Search" name="keyword" autocomplete="off" maxlength="45"
+                       th:value="${keyword}"
+                       id="searchField" required>
+                <button class="icon" style="border:none" type="submit" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-search"></i>
+                </button>
+                <span class="fa-solid fa-rotate-left btn-clear" onclick="clearFilter()"></span>
+            </div>
+        </div>
+    </form>
+    <!--  -->
+    <!--Table Users-->
+    <p class="my-4">
+        <a class="btn btn-square-pink fa-2x mr-3"
+           th:href="@{/users/new}">
+            <i class="bi bi-plus-square-fill fa-solid fa-user-plus"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3"
+           th:href="@{/users/export/csv}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-csv"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x mr-3"
+           th:href="@{/users/export/excel}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-excel"></i>
+        </a>
+        <a class="btn btn-square-pink fa-2x"
+           th:href="@{/users/export/pdf}">
+            <i class="bi bi-plus-square-fill fa-solid fa-file-pdf"></i>
+        </a>
+    </p>
+
+    <div class="full-details">
+        <table class="table table-hover table-bordered table-striped table-responsive-md">
+            <thead>
+            <tr>
+                <th class="th_td_table hideable-column">
+                <th th:replace="~{fragments :: column_Link('/users','id','User ID','tag')}"></th>
+                </th>
+                <th class="th_td_table">Photos</th>
+                <th th:replace="~{fragments :: column_Link('/users','email','Email','none')}"></th>
+                <th th:replace="~{fragments :: column_Link('/users','firstName','First Name','none')}"></th>
+                <th th:replace="~{fragments :: column_Link('/users','lastName','Last Name','none')}"></th>
+                <th class="th_td_table">Roles</th>
+                <th th:replace="~{fragments :: column_Link('/users','enabled','Enabled','none')}"></th>
+                <th class="th_td_table">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${listUsers}">
+                <td class="th_td_table hideable-column" th:text="${item.id}"></td>
+                <td class="th_td_table">
+                    <img th:if="${item.photos == null}" th:src="@{/images/default_user.jpg}" class="user_list_avatar">
+                    <img th:if="${item.photos != null}" th:src="@{${item.photosImagePath}}" class="user_list_avatar">
+                </td>
+                <td class="th_td_table" th:text="${item.email}"></td>
+                <td class="th_td_table" th:text="${item.firstName}"></td>
+                <td class="th_td_table" th:text="${item.lastName}"></td>
+                <td class="th_td_table" th:text="${item.roles}"></td>
+                <td class="th_td_table pointer-event">
+                    <div th:replace="~{fragments :: status( '/users/', ${item.enabled}, ${item.id}, 'user')}"></div>
+                </td>
+                <td class="th_td_table">
+                    <a th:replace="~{fragments :: edit('/users/', ${item.id}, 'user')}"></a>
+                    <a th:replace="~{fragments :: delete('/users/', ${item.id}, 'user', true)}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--less Details-->
+    <div class="less-details">
+        <div th:each="item : ${listUsers}" style="display: grid">
+            <div class="card mb-5"
+                 style="max-width: 27rem; height: 36rem; place-self: center; box-shadow: 0 0 10px rgba(0,0,0,0.5);border-radius: 15px;">
+                <img th:if="${item.id % 3 == 0}" class="card-img-top" th:src="@{/images/hinh-nen-thien-nhien-4k.jpg}"
+                     style="border-top-right-radius: 15px !important; border-top-left-radius: 15px !important;"
+                     alt="Card image cap">
+                <img th:if="${item.id % 3 == 1}" class="card-img-top"
+                     th:src="@{/images/hinh-nen-may-tinh-thien-nhien-an-tuong-nhat.jpg}"
+                     style="border-top-right-radius: 15px !important; border-top-left-radius: 15px !important;"
+                     alt="Card image cap">
+                <img th:if="${item.id % 3 == 2}" class="card-img-top" th:src="@{/images/top-hinh-nen-thien-nhien-2.jpg}"
+                     style="border-top-right-radius: 15px !important; border-top-left-radius: 15px !important;"
+                     alt="Card image cap">
+                <img th:if="${item.photos != null}" th:src="@{${item.photosImagePath}}" class="user_avatar-mobile">
+                <div class="card-body">
+                    <div class="row" style="display: flex; justify-content: center">
+                        <h5 class="card-title" style="font-size: 1.8rem;margin:0;">
+                            [[${item.fullName}]]</h5>
+                        <a th:if="${item.enabled == true}" th:href="@{'/users/' + ${item.id} + '/enabled/false'}"
+                           title="Disable this user"
+                           style="position: relative; right: -10px; top:2px">
+                            <i class="fa-solid fa-check" style="color: dodgerblue;font-size: 2rem"></i>
+                        </a>
+                        <a th:if="${item.enabled == false}" th:href="@{'/users/' + ${item.id} + '/enabled/true'}"
+                           title="Enable this user"
+                           style="position: relative; right: -10px; top:2px">
+                            <i class="fa-solid fa-xmark " style="color: red;font-size: 2.3rem"></i>
+                        </a>
+                    </div>
+                    <p class="card-title mb-2" style="font-size: 1.5rem; text-align: center;">
+                        [[${item.roles}]]</p>
+                    <div class="row" style="display: flex; justify-content: space-around; margin-top: -5px;">
+                        <a class="btn btn-square-pink m-3 "
+                           style="font-size: 1.7rem;height: 34px; width: 34px;"
+                           th:href="@{'/users/edit/' + ${item.id}}" title="Edit this user">
+                            <i class="bi bi-pencil-fill fa-solid fa-user-pen"></i>
+                        </a>
+                        <a class="btn btn-square-pink m-3" style="font-size: 1.7rem; height: 34px; width: 34px;"
+                           th:href="@{'/users/delete/' + ${item.id}}" title="Delete this user"
+                           th:userEmail="${item.email}">
+                            <i class="bi bi-trash-fill fa-solid fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--  -->
+
+    <div th:replace="~{fragments :: pagination('users', 'users')}"></div>
+
+    <div class="text-center" style="font-size: 1.4rem">
+        <p th:replace="~{fragments :: footer}"></p>
+    </div>
+
+    <div th:replace="~{modal_fragment :: confirm_modal}"></div>
+
+
+</div>
+
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+<script>
+    moduleURl = "[[@{/users}]]"
+    $(document).ready(function () {
+        $(".link-delete").on("click", function (e) {
+            e.preventDefault();
+
+            showDeleteConfirmModal($(this), 'user')
+        });
+
+        $("#dropdownRole").on("change", function () {
+            $("#searchForm").submit();
+        })
+    });
+</script>
+</body>
+</html>

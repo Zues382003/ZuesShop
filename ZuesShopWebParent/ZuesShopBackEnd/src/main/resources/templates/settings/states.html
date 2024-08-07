@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content" th:remove="tag">
+    <div>
+        <p class="font-md">
+            Use this page to manage states/provinces which can be chosen by user in the customer registration form.
+            Click Load Country List first.
+        </p>
+    </div>
+    <div>
+        <input type="button" value="Load Country List" id="btnLoadCountriesForStates" class="btn btn-primary font-md">
+    </div>
+
+    <div class="form-row mt-4">
+        <label style="white-space: nowrap" class="col-sm-2 col-form-label font-xl">Selected Country:</label>
+        <span class="col-sm-1"></span>
+        <div class="col-sm-9 d-flex align-items-center">
+            <select id="dropDownCountriesForStates" class="form-control font-md">
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row my-4">
+        <label style="white-space: nowrap" class="col-sm-2 col-form-label font-xl">All States/Provinces:</label>
+        <span class="col-sm-1"></span>
+        <div class="col-sm-9 d-flex align-items-center">
+            <select id="dropDownStates" style="height: 300px;" size="3" class="form-control font-md">
+            </select>
+        </div>
+    </div>
+    <form id="formState">
+        <div class="form-group row m-0">
+            <label id="labelStateName" style="white-space: nowrap" class="px-0 col-form-label col-sm-2 font-md">State/Province Name:</label>
+            <span class="col-sm-1"></span>
+            <div class="col-sm-5 p-0">
+                <input id="fieldStateName"  type="text" class="form-control font-md" required minlength="3" maxlength="45">
+            </div>
+
+            <div class="col-lg-4  mt-5 mt-lg-0 justify-content-center d-flex">
+                <input id="btnAddState" type="button" value="New" class="btn font-md mr-4 btn-secondary">
+                <input id="btnUpdateState" type="button" value="Update" class="btn font-md  mr-4 btn-secondary" disabled="disabled">
+                <input id="btnDeleteState" type="button" value="Delete" class="btn font-md mr-4  btn-secondary" disabled="disabled">
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
